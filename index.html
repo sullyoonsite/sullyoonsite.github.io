@@ -159,6 +159,8 @@
             }
         }
       document.addEventListener('DOMContentLoaded', function() {
+          input = '';
+          updateCircles();
           var buttons = document.querySelectorAll('.keypad-button');
           buttons.forEach(function(button) {
               button.addEventListener('click', function() {
