@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ko" style="height: 100%;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="manifest" href="/manifest.json">
+    <title>sullyoon.kr</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0; 
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFB6C1;
+            text-align: center;
+        }
+        header {
+            background-color: white;
+            color: black;
+            border: 3px solid black;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 30px;
+            width: 90%;
+            margin: 20px auto;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        #circles {
+            display: inline-block;
+            margin: 20px 0;
+        }
+        .circle {
+            height: 30px;
+            width: 30px;
+            border: 3px solid black;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 5px;
+            background-color: white;
+        }
+        .filled {
+            background-color: black;
+        }
+        .shake {
+            animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+        }
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+        .keypad {
+            width: 100%;
+            max-width: 360px;
+            margin: 0 auto; 
+        }
+        .keypad-row {
+            display: flex;
+            justify-content: space-around;
+        }
+        .keypad-button {
+            background-color: white;
+            color: black;
+            border: 3px solid black;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            font-size: 30px;
+            margin: 10px;
+            cursor: pointer;
+            outline: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.2s;
+        }
+      .keypad-button-pressed {
+          background-color: black;
+          color: white;
+      }
+      
+    </style>
+</head>
+<body>
+    <header>PAXXWORD</header>
+    <div id="circles">
+        <span class="circle"></span>
+        <span class="circle"></span>
+        <span class="circle"></span>
+        <span class="circle"></span>
+    </div>
+
+    <div class="keypad">
+        <div class="keypad-row">
+            <button class="keypad-button" onclick="inputDigit('1')">1</button>
+            <button class="keypad-button" onclick="inputDigit('2')">2</button>
+            <button class="keypad-button" onclick="inputDigit('3')">3</button>
+        </div>
+        <div class="keypad-row">
+            <button class="keypad-button" onclick="inputDigit('4')">4</button>
+            <button class="keypad-button" onclick="inputDigit('5')">5</button>
+            <button class="keypad-button" onclick="inputDigit('6')">6</button>
+        </div>
+        <div class="keypad-row">
+            <button class="keypad-button" onclick="inputDigit('7')">7</button>
+            <button class="keypad-button" onclick="inputDigit('8')">8</button>
+            <button class="keypad-button" onclick="inputDigit('9')">9</button>
+        </div>
+        <div class="keypad-row">
+            <button class="keypad-button" onclick="inputDigit('0')">0</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('touchmove', function (event) {
+            if (event.scale !== 1) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+
+        var input = '';
+        function inputDigit(digit) {
+            if (input.length < 4) {
+                input += digit;
+                updateCircles();
+            }
+        }
+
+        function updateCircles() {
+            var circles = document.getElementById('circles').children;
+            for (var i = 0; i < circles.length; i++) {
+                circles[i].className = i < input.length ? 'circle filled' : 'circle';
+            }
+            if (input.length === 4) {
+                setTimeout(checkPassword, 500);
+            }
+        }
+
+        function checkPassword() {
+            if (input === '0126') {
+                window.location.href = 'welcome.html';
+            } else {
+                var circlesContainer = document.getElementById('circles');
+                circlesContainer.className = 'shake';
+                setTimeout(function() {
+                    input = '';
+                    updateCircles();
+                    circlesContainer.className = '';
+                }, 820);
+            }
+        }
+      document.addEventListener('DOMContentLoaded', function() {
+          var buttons = document.querySelectorAll('.keypad-button');
+          buttons.forEach(function(button) {
+              button.addEventListener('click', function() {
+                  this.classList.add('keypad-button-pressed');
+                  setTimeout(() => {
+                      this.classList.remove('keypad-button-pressed');
+                  }, 200);
+              });
+          });
+      });
+    </script>
+</body>
+</html>
