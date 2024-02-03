@@ -158,9 +158,11 @@
                 }, 820);
             }
         }
-      document.addEventListener('DOMContentLoaded', function() {
-          input = '';
+            window.addEventListener('pageshow', function(event) {
+                          input = '';
           updateCircles();
+    });
+      document.addEventListener('DOMContentLoaded', function() {
           var buttons = document.querySelectorAll('.keypad-button');
           buttons.forEach(function(button) {
               button.addEventListener('click', function() {
