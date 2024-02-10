@@ -1,207 +1,283 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <link rel="manifest" href="/manifest.json">
-    <title>sullyoon.kr</title>
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #FFB6C1;
-            color: black;
-            overflow-x: hidden;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none; 
-            -khtml-user-select: none; 
-            -moz-user-select: none; 
-            -ms-user-select: none;
-            user-select: none;
-            scrollbar-width: none;
-        }
-        .header {
-            font-weight: bold;
-            background-color: white;
-            color: black;
-            border: 3px solid black;
-            text-align: center;
-            padding: 10px 0;
-            font-size: 30px;
-            width: 90%;
-            margin: 0 auto;
-            border-radius: 10px;
-            opacity: 0;
-            transition: opacity 2s ease;
-        }
-        .photo-container {
-            display: none;
-            opacity: 0;
-            background-color: white;
-            padding: 15px;
-            border: 3px solid black;
-            margin: 10px auto;
-            width: 90%;
-            box-sizing: border-box;
-            border-radius: 10px;
-            text-align: left;
-            transition: opacity 2s ease; 
-            position: relative;
-        }
-        .heart-button {
-            position: absolute;
-            bottom: 14px;
-            right: 18px;
-            width: 30px;
-            height: 30px;
-            background-image: url('images/heart1.png');
-            background-size: cover;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .heart-button.liked {
-            background-image: url('images/heart2.png');
-            transform: scale(1.3);
-        }
-        .photo {
-            display: block;
-            width: calc(100% - 6px);
-            margin: 0 auto;
-            border-radius: 10px;
-        }
-        .photo-title, .photo-date {
-            margin-left: 4px;
-        }
-        .photo-title {
-            font-weight: bold;
-            margin-top: 10px;
-        }
-        .photo-date {
-            color: #888;
-            font-size: 14px;
-            margin-bottom: -5px;
-        }
-        ::-webkit-scrollbar {
-            display: none;
-        }
-        
-    </style>
-</head>
-<body>
-    <div class="header">안녕 SULLYOON!</div>
-    <div id="photo-gallery"></div>
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+      <link rel="manifest" href="/manifest.json">
+      <title>sullyoon.kr</title>
+      <style>
+         * {
+         box-sizing: border-box;
+         }
+         body {
+         font-family: Arial, sans-serif;
+         background-color: #FFB6C1;
+         color: black;
+         overflow-x: hidden;
+         -webkit-touch-callout: none;
+         -webkit-user-select: none; 
+         -khtml-user-select: none; 
+         -moz-user-select: none; 
+         -ms-user-select: none;
+         user-select: none;
+         scrollbar-width: none;
+         }
+         .header {
+         font-weight: bold;
+         background-color: white;
+         color: black;
+         border: 3px solid black;
+         text-align: center;
+         padding: 10px 0;
+         font-size: 30px;
+         width: 90%;
+         margin: 0 auto;
+         border-radius: 10px;
+         opacity: 0;
+         transition: opacity 2s ease;
+         }
+         .photo-container {
+         display: none;
+         opacity: 0;
+         background-color: white;
+         padding: 15px;
+         border: 3px solid black;
+         margin: 10px auto;
+         width: 90%;
+         box-sizing: border-box;
+         border-radius: 10px;
+         text-align: left;
+         transition: opacity 2s ease; 
+         position: relative;
+         }
+         .heart-button {
+         position: absolute;
+         bottom: 14px;
+         right: 18px;
+         width: 30px;
+         height: 30px;
+         background-image: url('images/heart1.png');
+         background-size: cover;
+         cursor: pointer;
+         transition: transform 0.3s ease;
+         -webkit-tap-highlight-color: transparent;
+         }
+         .heart-button.liked {
+         background-image: url('images/heart2.png');
+         transform: scale(1.3);
+         }
+         .photo {
+         display: block;
+         width: calc(100% - 6px);
+         margin: 0 auto;
+         border-radius: 10px;
+         }
+         .photo-title, .photo-date {
+         margin-left: 4px;
+         }
+         .photo-title {
+         font-weight: bold;
+         margin-top: 10px;
+         }
+         .photo-date {
+         color: #888;
+         font-size: 14px;
+         margin-bottom: -5px;
+         }
+         ::-webkit-scrollbar {
+         display: none;
+         }
+         #message-gallery {
+         overflow: hidden;
+         max-height: 0;
+         transition: max-height 0.5s ease-in-out;
+         }
+         .message-box {
+         background-color: white;
+         padding: 15px;
+         border: 3px solid black;
+         margin: 10px auto;
+         width: 90%;
+         box-sizing: border-box;
+         border-radius: 10px;
+         text-align: left;
+         transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+         transform: translateY(-20px);
+         opacity: 0;
+         }
+         .message-box.show {
+         transform: translateY(0);
+         opacity: 1;
+         }
+         .message-title {
+         font-weight: bold;
+         margin-bottom: 5px;
+         }
+         .message-text {
+         color: #888;
+         font-size: 14px;
+         white-space: pre-line;
+         }
+      </style>
+   </head>
+   <body>
+      <div class="header" onclick="toggleMessages()">안녕 SULLYOON!</div>
+      <div id="message-gallery"></div>
+      <div id="photo-gallery"></div>
+      <script>
+         const messages = [
+             { title: 'Message 1', text: '첫 번째 메시지 내용이 여기 들어갑니다. 이것은 전체 단락일 수 있으며, 스타일은 날짜와 동일합니다.' },
+             { title: 'Message 2', text: '두 번째 메시지 내용이 여기에 오게 됩니다. 메시지는 길 수도 있고, 여러 행으로 구성될 수 있습니다.' },
+         ];
 
-  <script>
-      document.addEventListener('DOMContentLoaded', function() {
-          const header = document.querySelector('.header');
-          setTimeout(() => {
-              header.style.opacity = 1;
-          }, 400);
+         function toggleMessages() {
+            const messageGallery = document.getElementById('message-gallery');
+            if (messageGallery.style.maxHeight === '0px' || messageGallery.style.maxHeight === '') {
+                messageGallery.innerHTML = '';
+                messages.forEach((message, index) => {
+                    const messageBox = document.createElement('div');
+                    messageBox.className = 'message-box';
+                    messageBox.style.transform = 'translateY(-100%)';
+                    messageBox.style.opacity = '0';
 
-          const photos = [
-              { filename: 'images/1.png', title: 'ISA와 함께', date: '2023년 12월' },
-              { filename: 'images/2.png', title: '김치!', date: '2022년 11월'},
-              { filename: 'images/3.png', title: '베이비 클라우드', date: '2023년 07월' },
-              { filename: 'images/4.png', title: 'SANA를 만나다', date: '2024년 01월'},
-              { filename: 'images/5.png', title: '졸업식 날!', date: '2023년 02월'},
-              { filename: 'images/6.png', title: 'HAEWON 생일 축하해', date: '2023년 02월'},
-              { filename: 'images/7.png', title: '아늑한 하루', date: '2023년 01월'},
-              { filename: 'images/8.png', title: '눈물을 닦아', date: '2024년 01월'},
-              { filename: 'images/9.png', title: 'EUNCHAE 일기장', date: '2024년 02월'},
-              { filename: 'images/10.png', title: '뮤직뱅크 JUNGHA', date: '2023년 12월'},
-              { filename: 'images/11.png', title: '수상한 동급생', date: '2023년 07월'},
-              { filename: 'images/12.png', title: 'MC 쌍둥이', date: '2023년 07월'},
-              { filename: 'images/13.png', title: '크리스마스', date: '2023년 12월'},
-              { filename: 'images/14.png', title: '음악 핵심', date: '2023년 10월'},
-              { filename: 'images/15.png', title: '스트레이 키즈', date: '2023년 06월'},
-              { filename: 'images/16.png', title: '멍청아!', date: '2023년 03월'},
-              { filename: 'images/17.png', title: '세련된 화이트', date: '2022년 03월'},
-              { filename: 'images/18.png', title: 'O.O O.O', date: '2023년 05월'},
-              { filename: 'images/19.png', title: '포근하게', date: '2023년 05월'},
-              { filename: 'images/20.png', title: '릴리 그린', date: '2022년 09월'},
-              { filename: 'images/21.png', title: '놀라다!', date: '2022년 05월'},
-          ];
+                    const titleDiv = document.createElement('div');
+                    titleDiv.className = 'message-title';
+                    titleDiv.textContent = message.title;
+                    messageBox.appendChild(titleDiv);
 
-            function preloadImages() {
-                photos.forEach(photo => {
-                    const img = new Image();
-                    img.src = photo.filename;
-                });
-                const heartImages = ['images/heart1.png', 'images/heart2.png'];
-                heartImages.forEach(imageSrc => {
-                    const img = new Image();
-                    img.src = imageSrc;
-                });
-            }
-            preloadImages();
+                    const textDiv = document.createElement('div');
+                    textDiv.className = 'message-text';
+                    textDiv.textContent = message.text;
+                    messageBox.appendChild(textDiv);
 
-            photos.sort((a, b) => {
-                const parseDate = (dateString) => {
-                    const parts = dateString.match(/(\d{4})년 (\d{1,2})월/);
-                    return new Date(parts[1], parts[2] - 1); 
-                };
-                return parseDate(b.date) - parseDate(a.date);
-            });
+                    messageGallery.appendChild(messageBox);
 
-        function toggleHeart(button) {
-            button.classList.toggle('liked');
-            const isLiked = button.classList.contains('liked');
-            button.style.backgroundImage = isLiked ? "url('images/heart2.png')" : "url('images/heart1.png')";
-
-            if (isLiked) {
-                button.style.transform = 'scale(1.3)';
-                setTimeout(() => {
-                    button.style.transform = 'scale(1)';
-                }, 200);
-            }
-        }
-
-            function displayPhotos(index = 0) {
-                if (index >= photos.length) return;
-
-                const photo = photos[index];
-                const gallery = document.getElementById('photo-gallery');
-                const photoContainer = document.createElement('div');
-                photoContainer.className = 'photo-container';
-
-                const heartButton = document.createElement('div');
-                heartButton.className = 'heart-button';
-                heartButton.onclick = function() { toggleHeart(heartButton); };
-
-                const img = document.createElement('img');
-                img.src = photo.filename;
-                img.alt = 'Loading...';
-                img.className = 'photo';
-
-                img.onload = function() {
-                    photoContainer.style.display = 'block';
                     setTimeout(() => {
-                        photoContainer.style.opacity = 1;
-                        displayPhotos(index + 1);
-                    }, 400);
-                };
-
-                const title = document.createElement('div');
-                title.className = 'photo-title';
-                title.textContent = photo.title;
-
-                const date = document.createElement('div');
-                date.className = 'photo-date';
-                date.textContent = photo.date;
-
-                photoContainer.appendChild(img);
-                photoContainer.appendChild(title);
-                photoContainer.appendChild(date);
-                photoContainer.appendChild(heartButton);
-
-                gallery.appendChild(photoContainer);
+                        messageBox.style.transform = 'translateY(0)';
+                        messageBox.style.opacity = '1';
+                    }, 100 * (messages.length - index));
+                });
+                messageGallery.style.maxHeight = `${messageGallery.scrollHeight}px`;
+            } else {
+                const messageBoxes = messageGallery.querySelectorAll('.message-box');
+                messageBoxes.forEach((messageBox, index) => {
+                    setTimeout(() => {
+                        messageBox.style.transform = 'translateY(-100%)';
+                        messageBox.style.opacity = '0';
+                    }, 100 * (index + 1));
+                });
+                setTimeout(() => {
+                    messageGallery.style.maxHeight = '0';
+                }, 100 * (messageBoxes.length + 1));
             }
+         }
+           document.addEventListener('DOMContentLoaded', function() {
+               const header = document.querySelector('.header');
+               setTimeout(() => {
+                   header.style.opacity = 1;
+               }, 400);
 
-            displayPhotos();
-        });
-  </script>
-</body>
+               const photos = [
+                   { filename: 'images/1.png', title: 'ISA와 함께', date: '2023년 12월' },
+                   { filename: 'images/2.png', title: '김치!', date: '2022년 11월'},
+                   { filename: 'images/3.png', title: '베이비 클라우드', date: '2023년 07월' },
+                   { filename: 'images/4.png', title: 'SANA를 만나다', date: '2024년 01월'},
+                   { filename: 'images/5.png', title: '졸업식 날!', date: '2023년 02월'},
+                   { filename: 'images/6.png', title: 'HAEWON 생일 축하해', date: '2023년 02월'},
+                   { filename: 'images/7.png', title: '아늑한 하루', date: '2023년 01월'},
+                   { filename: 'images/8.png', title: '눈물을 닦아', date: '2024년 01월'},
+                   { filename: 'images/9.png', title: 'EUNCHAE 일기장', date: '2024년 02월'},
+                   { filename: 'images/10.png', title: '뮤직뱅크 JUNGHA', date: '2023년 12월'},
+                   { filename: 'images/11.png', title: '수상한 동급생', date: '2023년 07월'},
+                   { filename: 'images/12.png', title: 'MC 쌍둥이', date: '2023년 07월'},
+                   { filename: 'images/13.png', title: '크리스마스', date: '2023년 12월'},
+                   { filename: 'images/14.png', title: '음악 핵심', date: '2023년 10월'},
+                   { filename: 'images/15.png', title: '스트레이 키즈', date: '2023년 06월'},
+                   { filename: 'images/16.png', title: '멍청아!', date: '2023년 03월'},
+                   { filename: 'images/17.png', title: '세련된 화이트', date: '2022년 03월'},
+                   { filename: 'images/18.png', title: 'O.O O.O', date: '2023년 05월'},
+                   { filename: 'images/19.png', title: '포근하게', date: '2023년 05월'},
+                   { filename: 'images/20.png', title: '릴리 그린', date: '2022년 09월'},
+                   { filename: 'images/21.png', title: '놀라다!', date: '2022년 05월'},
+               ];
+
+                 function preloadImages() {
+                     photos.forEach(photo => {
+                         const img = new Image();
+                         img.src = photo.filename;
+                     });
+                     const heartImages = ['images/heart1.png', 'images/heart2.png'];
+                     heartImages.forEach(imageSrc => {
+                         const img = new Image();
+                         img.src = imageSrc;
+                     });
+                 }
+                 preloadImages();
+
+                 photos.sort((a, b) => {
+                     const parseDate = (dateString) => {
+                         const parts = dateString.match(/(\d{4})년 (\d{1,2})월/);
+                         return new Date(parts[1], parts[2] - 1); 
+                     };
+                     return parseDate(b.date) - parseDate(a.date);
+                 });
+
+             function toggleHeart(button) {
+                 button.classList.toggle('liked');
+                 const isLiked = button.classList.contains('liked');
+                 button.style.backgroundImage = isLiked ? "url('images/heart2.png')" : "url('images/heart1.png')";
+
+                 if (isLiked) {
+                     button.style.transform = 'scale(1.3)';
+                     setTimeout(() => {
+                         button.style.transform = 'scale(1)';
+                     }, 200);
+                 }
+             }
+
+                 function displayPhotos(index = 0) {
+                     if (index >= photos.length) return;
+
+                     const photo = photos[index];
+                     const gallery = document.getElementById('photo-gallery');
+                     const photoContainer = document.createElement('div');
+                     photoContainer.className = 'photo-container';
+
+                     const heartButton = document.createElement('div');
+                     heartButton.className = 'heart-button';
+                     heartButton.onclick = function() { toggleHeart(heartButton); };
+
+                     const img = document.createElement('img');
+                     img.src = photo.filename;
+                     img.alt = 'Loading...';
+                     img.className = 'photo';
+
+                     img.onload = function() {
+                         photoContainer.style.display = 'block';
+                         setTimeout(() => {
+                             photoContainer.style.opacity = 1;
+                             displayPhotos(index + 1);
+                         }, 400);
+                     };
+
+                     const title = document.createElement('div');
+                     title.className = 'photo-title';
+                     title.textContent = photo.title;
+
+                     const date = document.createElement('div');
+                     date.className = 'photo-date';
+                     date.textContent = photo.date;
+
+                     photoContainer.appendChild(img);
+                     photoContainer.appendChild(title);
+                     photoContainer.appendChild(date);
+                     photoContainer.appendChild(heartButton);
+
+                     gallery.appendChild(photoContainer);
+                 }
+
+                 displayPhotos();
+             });
+      </script>
+   </body>
 </html>
