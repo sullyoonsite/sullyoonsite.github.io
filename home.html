@@ -133,7 +133,6 @@
          }
          .quote-widget {
          font-size: 18px;
-         font-style: italic;
          color: black;
          }
          .weather-widget {
@@ -203,7 +202,7 @@
           const randomQuote = getRandomElement(quotes);
           const quoteWidget = document.createElement('div');
           quoteWidget.className = 'widget-box quote-widget';
-          quoteWidget.innerHTML = `<strong>${randomQuote.quote}</strong><br><div>${randomQuote.author}</div>`;
+          quoteWidget.innerHTML = `<strong><em>${randomQuote.quote}</em></strong><br><div>${randomQuote.author}</div>`;
 
           const randomSong = getRandomElement(songs);
           const songWidget = document.createElement('div');
