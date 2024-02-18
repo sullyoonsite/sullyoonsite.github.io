@@ -194,10 +194,15 @@
          async function initializeWidgets() {
           const dateWidget = document.createElement('div');
           dateWidget.className = 'widget-box date-widget';
-          const date = new Date();
-          const dayOfWeek = date.toLocaleString('ko-KR', { weekday: 'long' });
-
-          dateWidget.innerHTML = `<div class="number-day">${date.getDate()}</div><div><strong>${dayOfWeek}</strong><br>${date.toLocaleString('ko-KR', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Seoul' })}</div>`;
+      
+          const nowUTC = new Date();
+      
+          const koreaTimeOffset = 9 * 60;
+          const nowKST = new Date(nowUTC.getTime() + koreaTimeOffset * 60000);
+      
+          const dayOfWeek = nowKST.toLocaleString('ko-KR', { weekday: 'long' });
+      
+          dateWidget.innerHTML = `<div class="number-day">${nowKST.getDate()}</div><div><strong>${dayOfWeek}</strong><br>${nowKST.toLocaleString('ko-KR', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Seoul' })}</div>`;
 
           const randomQuote = getRandomElement(quotes);
           const quoteWidget = document.createElement('div');
