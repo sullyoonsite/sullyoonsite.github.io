@@ -130,8 +130,10 @@
          width: 60px;
          height: 60px;
          margin-right: 15px;
+         border: 3px solid black;
          }
          .quote-widget {
+         display: flex;
          font-size: 18px;
          color: black;
          }
@@ -165,18 +167,13 @@
          ];
          const quotes = [
           { quote: '친구에게 충고하려 할 때다.', author: '이솝 우화' },
-          { quote: '소년이면서 조금 범죄 수 있고, 패배하면 모든 것을 배울 수 있다.', author: '크리스티 메튜슨' },
-          { quote: '만만 하고 평범하지 않은 사람은 절대로 가슴 속 진실한 꿈을 갖지 않는다.', author: '하우얼' },
           { quote: '내 물리학 분석 능력을 시험받다.', author: '와튼 체첼' },
           { quote: '남하고 시간에 대해 논하느니 더 나은 시간 낭비이다.', author: '메이블 슬로릴' },
           { quote: '사람을 진정인이라 하는 이는 자신 되돌을 투올내는 일을 시작한다다.', author: '공자' },
-          { quote: '모든 것은 있어뿔러리고,모든 것은 가야하고 진정한 것은 아무것도 없다다.', author: '공자' },
           { quote: '아이디어의 충고 남발은 어떻게 실험하느냐에 따라 결정된다.', author: '카를로스 곤' },
           { quote: '인생은 윤리를 광고하지 못한다. 그런 면에서 대하여 분명히 생각하지 말고 받아들여라.', author: '빌 게이츠' },
           { quote: '다리를 닮았지만 않고는 작은 돌멩이 걷는 것 만다.', author: '알람' },
           { quote: '승산은 게임도르, 멈추지 않니다.', author: '헬렌 포드' },
-          { quote: '위대한 정신을 가진 사람들은 생각을 놓다. 평범한 사람들은 사건을 놓다. 마음이 조은 사람들은 사람들을 놓다.', author: '엘리너 루즈 벨트' },
-          { quote: '당신이 바라는것지 않으면 아무도 당신이 원하는걸 느끼게 만들 수 없다.', author: '엘리너 루즈벨트' },
           { quote: '영웅은 있지 않고 실패에서 실패로 건너가는 것이 중요이다.', author: '윈스턴 처칠' },
           { quote: '나는 내가 더 노력할수록 운이 더 좋아지는걸 끔 발견한다.', author: '토마스 제퍼슨' },
           { quote: '비밀는 여전 우리가 무엇을 하기보단 얼마나 열다.', author: '마하트마 간디' },
@@ -202,7 +199,7 @@
           const randomQuote = getRandomElement(quotes);
           const quoteWidget = document.createElement('div');
           quoteWidget.className = 'widget-box quote-widget';
-          quoteWidget.innerHTML = `<strong><em>${randomQuote.quote}</em></strong><br><div>${randomQuote.author}</div>`;
+          quoteWidget.innerHTML = `<img src="images/quote.png" class="weather-icon"><div><strong><em>${randomQuote.quote}</em></strong><br>${randomQuote.author}</div>`;
 
           const randomSong = getRandomElement(songs);
           const songWidget = document.createElement('div');
@@ -232,8 +229,8 @@
 
           widgets.appendChild(dateWidget);
           widgets.appendChild(weatherWidget);
-          widgets.appendChild(songWidget);
           widgets.appendChild(quoteWidget);
+          widgets.appendChild(songWidget);
          }
 
          function toggleWidgets() {
