@@ -193,18 +193,12 @@
 
          async function initializeWidgets() {
           const dateWidget = document.createElement('div');
-dateWidget.className = 'widget-box date-widget';
-
-// Create a new Date object in the user's local timezone
-const now = new Date();
-
-// Use this Date object to get the day, date, and time in KST
-const dayOfWeek = now.toLocaleString('ko-KR', { weekday: 'long', timeZone: 'Asia/Seoul' });
-const dateInKorea = now.toLocaleString('ko-KR', { day: 'numeric', timeZone: 'Asia/Seoul' });
-const formattedTime = now.toLocaleString('ko-KR', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Seoul' });
-
-// Set the innerHTML of the widget
-dateWidget.innerHTML = `<div class="number-day">${dateInKorea}</div><div><strong>${dayOfWeek}</strong><br>${formattedTime}</div>`;
+          dateWidget.className = 'widget-box date-widget';
+          const now = new Date();
+          const dayOfWeek = now.toLocaleString('ko-KR', { weekday: 'long', timeZone: 'Asia/Seoul' });
+          const dateInKorea = now.toLocaleString('en-US', { day: 'numeric', timeZone: 'Asia/Seoul' });
+          const formattedTime = now.toLocaleString('ko-KR', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Seoul' });
+          dateWidget.innerHTML = `<div class="number-day">${dateInKorea}</div><div><strong>${dayOfWeek}</strong><br>${formattedTime}</div>`;
 
           const randomQuote = getRandomElement(quotes);
           const quoteWidget = document.createElement('div');
