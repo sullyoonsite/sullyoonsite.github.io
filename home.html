@@ -195,7 +195,9 @@
           const dateWidget = document.createElement('div');
           dateWidget.className = 'widget-box date-widget';
           const date = new Date();
-          dateWidget.innerHTML = `<div class="number-day">${date.getDate()}</div><div><strong>${date.toLocaleString('ko-KR', { year: 'numeric', month: 'long' })}</strong><br>${date.toLocaleString('ko-KR', { hour: '2-digit', minute: '2-digit' })}</div>`;
+          const dayOfWeek = date.toLocaleString('ko-KR', { weekday: 'long' });
+
+          dateWidget.innerHTML = `<div class="number-day">${date.getDate()}</div><div><strong>${dayOfWeek}</strong><br>${date.toLocaleString('ko-KR', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Seoul' })}</div>`;
 
           const randomQuote = getRandomElement(quotes);
           const quoteWidget = document.createElement('div');
