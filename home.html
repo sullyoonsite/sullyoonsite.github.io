@@ -94,7 +94,7 @@
          #widgets {
          overflow: hidden;
          max-height: 0;
-         transition: max-height 0.5s ease-in-out;
+         transition: max-height 0.8s ease-in-out;
          }
          .widget-box {
          background-color: white;
@@ -321,7 +321,7 @@
                  setTimeout(() => {
                      this.classList.remove('header-pressed');
                      const songWidget = document.querySelector('.song-widget');
-                     songWidget.classList.remove('expanded')
+                     songWidget.classList.toggle('expanded')
                  }, 200);
              });
 
