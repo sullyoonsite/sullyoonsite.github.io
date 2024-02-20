@@ -37,8 +37,8 @@
          transition: opacity 2s ease;
          }
          .header-pressed {
-            background-color: black;
-            color: white;
+         background-color: black;
+         color: white;
          }
          .photo-container {
          display: none;
@@ -153,6 +153,17 @@
          height: 60px;
          margin-right: 15px;
          }
+         .play-pause-button {
+         position: absolute;
+         top: 50%;
+         right: 18px;
+         width: 30px;
+         height: 30px;
+         background-size: cover;
+         cursor: pointer;
+         transform: translateY(-50%);
+         -webkit-tap-highlight-color: transparent;
+         }
       </style>
    </head>
    <body>
@@ -167,7 +178,7 @@
          }, { passive: false });
          const songs = [
           //{ title: 'TOGETHER!', artist: 'JANNABI', cover: 'images/a.png' },
-          { title: 'If I Could Ride a Bike', artist: 'Chevy', cover: 'images/b.png', mp3: '1.mp3' }
+          { title: 'If I Could Ride a Bike', artist: 'Chevy', cover: 'images/b.png', mp3: 'images/b.mp3'}
           //{ title: 'From The Start', artist: 'Laufey', cover: 'images/c.png' },
          ];
          const quotes = [
@@ -184,11 +195,11 @@
           //{ quote: '가운데 갈고 모든 것을 잃어버다.', author: '백지의 물결빛' },
           //{ quote: '해야할 일을 끝까지 하라, 결심한 일은 반드시 실행하라.', author: '백지의 물결빛' }
          ];
-
+         
          function getRandomElement(array) {
           return array[Math.floor(Math.random() * array.length)];
          }
-
+         
          async function initializeWidgets() {
           const dateWidget = document.createElement('div');
           dateWidget.className = 'widget-box date-widget';
@@ -197,48 +208,66 @@
           const dateInKorea = now.toLocaleString('en-US', { day: 'numeric', timeZone: 'Asia/Seoul' });
           const formattedTime = now.toLocaleString('ko-KR', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Seoul' });
           dateWidget.innerHTML = `<div class="number-day">${dateInKorea}</div><div><strong>${dayOfWeek}</strong><br>${formattedTime}</div>`;
-
+         
           const randomQuote = getRandomElement(quotes);
           const quoteWidget = document.createElement('div');
           quoteWidget.className = 'widget-box quote-widget';
           quoteWidget.innerHTML = `<img src="images/quote.png" class="weather-icon"><div><strong><em>${randomQuote.quote}</em></strong><br>${randomQuote.author}</div>`;
-
-          const randomSong = getRandomElement(songs);
-          const songWidget = document.createElement('div');
-          songWidget.className = 'widget-box song-widget';
-          songWidget.innerHTML = `<img src="${randomSong.cover}" class="album-cover"><div><strong>${randomSong.title}</strong><br>${randomSong.artist}</div>`;
-
+         
+           const randomSong = getRandomElement(songs);
+           const songWidget = document.createElement('div');
+           songWidget.className = 'widget-box song-widget';
+           songWidget.innerHTML = `<img src="${randomSong.cover}" class="album-cover">
+                                   <div><strong>${randomSong.title}</strong><br>${randomSong.artist}</div>
+                                   <div class="play-pause-button" style="background-image: url('images/play.png');"></div>`;
+         
+           const audio = new Audio(randomSong.mp3);
+           const playPauseButton = songWidget.querySelector('.play-pause-button');
+           playPauseButton.addEventListener('click', function() {
+               if (audio.paused) {
+                   audio.play();
+                   this.style.backgroundImage = "url('images/pause.png')";
+               } else {
+                   audio.pause();
+                   this.style.backgroundImage = "url('images/play.png')";
+               }
+           });
+         
+           audio.addEventListener('ended', function() {
+               playPauseButton.style.backgroundImage = "url('images/play.png')";
+           });
+         
            const weatherWidget = document.createElement('div');
            weatherWidget.className = 'widget-box weather-widget';
            const apiKey = 'dae5f8ebcd78d8f948bfe87431e07c58';
            const url = `https://api.openweathermap.org/data/2.5/weather?q=Seoul&appid=${apiKey}&units=metric&lang=kr`;
-
+         
            try {
              const response = await fetch(url);
              const data = await response.json();
-
+         
              const weatherIcon = `images/${data.weather[0].icon}.png`;
              const weatherDescription = data.weather[0].description.trim();
              const temperature = data.main.temp.toFixed(1);
-
+         
              weatherWidget.innerHTML = `<img src="${weatherIcon}" class="weather-icon"><div><strong>서울, 대한민국</strong><br>${temperature}° ${weatherDescription}</div>`;
            } catch (error) {
              console.error('Error fetching weather data:', error);
              weatherWidget.innerHTML = '<p>Weather data not available</p>';
            }
-
+         
           const widgets = document.getElementById('widgets');
-
+         
           widgets.appendChild(dateWidget);
           widgets.appendChild(weatherWidget);
           widgets.appendChild(quoteWidget);
           widgets.appendChild(songWidget);
          }
-
+         
          function toggleWidgets() {
             const widgets = document.getElementById('widgets');
             const widgetBoxes = widgets.querySelectorAll('.widget-box');
-
+         
             if (widgets.style.maxHeight === '0px' || widgets.style.maxHeight === '') {
                 widgetBoxes.forEach((widget, index) => {
                     setTimeout(() => {
@@ -255,21 +284,21 @@
                 widgets.style.maxHeight = '0';
             }
          }
-
+         
          document.addEventListener('DOMContentLoaded', function() {
              initializeWidgets();
              const header = document.querySelector('.header');
              setTimeout(() => {
                  header.style.opacity = 1;
              }, 200);
-
+         
              header.addEventListener('click', function() {
                  this.classList.add('header-pressed');
                  setTimeout(() => {
                      this.classList.remove('header-pressed');
                  }, 200);
              });
-
+         
              const photos = [
                  { filename: 'images/1.png', title: 'ISA와 함께', date: '2023년 12월' },
                  { filename: 'images/2.png', title: '김치!', date: '2022년 11월'},
@@ -293,7 +322,7 @@
                  { filename: 'images/20.png', title: '릴리 그린', date: '2022년 09월'},
                  { filename: 'images/21.png', title: '놀라다!', date: '2022년 05월'},
              ];
-
+         
                function preloadImages() {
                    photos.forEach(photo => {
                        const img = new Image();
@@ -306,7 +335,7 @@
                    });
                }
                preloadImages();
-
+         
                photos.sort((a, b) => {
                    const parseDate = (dateString) => {
                        const parts = dateString.match(/(\d{4})년 (\d{1,2})월/);
@@ -314,12 +343,12 @@
                    };
                    return parseDate(b.date) - parseDate(a.date);
                });
-
+         
            function toggleHeart(button) {
                button.classList.toggle('liked');
                const isLiked = button.classList.contains('liked');
                button.style.backgroundImage = isLiked ? "url('images/heart2.png')" : "url('images/heart1.png')";
-
+         
                if (isLiked) {
                    button.style.transform = 'scale(1.3)';
                    setTimeout(() => {
@@ -327,24 +356,24 @@
                    }, 200);
                }
            }
-
+         
                function displayPhotos(index = 0) {
                    if (index >= photos.length) return;
-
+         
                    const photo = photos[index];
                    const gallery = document.getElementById('photo-gallery');
                    const photoContainer = document.createElement('div');
                    photoContainer.className = 'photo-container';
-
+         
                    const heartButton = document.createElement('div');
                    heartButton.className = 'heart-button';
                    heartButton.onclick = function() { toggleHeart(heartButton); };
-
+         
                    const img = document.createElement('img');
                    img.src = photo.filename;
                    img.alt = 'Loading...';
                    img.className = 'photo';
-
+         
                    img.onload = function() {
                        photoContainer.style.display = 'block';
                        setTimeout(() => {
@@ -352,23 +381,23 @@
                            displayPhotos(index + 1);
                        }, 400);
                    };
-
+         
                    const title = document.createElement('div');
                    title.className = 'photo-title';
                    title.textContent = photo.title;
-
+         
                    const date = document.createElement('div');
                    date.className = 'photo-date';
                    date.textContent = photo.date;
-
+         
                    photoContainer.appendChild(img);
                    photoContainer.appendChild(title);
                    photoContainer.appendChild(date);
                    photoContainer.appendChild(heartButton);
-
+         
                    gallery.appendChild(photoContainer);
                }
-
+         
                displayPhotos();
            });
       </script>
