@@ -131,10 +131,12 @@
          font-size: 18px;
          }
          .album-cover {
+         position: absolute;
+         top: 50%;
+         right: 18px;
+         transform: translateY(-50%);
          width: 60px;
          height: 60px;
-         margin-right: 15px;
-         border: 3px solid black;
          }
          .quote-widget {
          display: flex;
@@ -149,19 +151,19 @@
          text-transform: capitalize;
          }
          .weather-icon {
-         width: 60px;
-         height: 60px;
+         width: 50px;
+         height: 50px;
          margin-right: 15px;
+         margin-top: 5px;
+         margin-bottom: 5px;
          }
          .play-pause-button {
-         position: absolute;
-         top: 50%;
-         right: 18px;
-         width: 30px;
-         height: 30px;
+         width: 40px;
+         height: 40px;
+         margin-right: 15px;
+         margin-top: 10px;
+         margin-bottom: 10px;
          background-size: cover;
-         cursor: pointer;
-         transform: translateY(-50%);
          -webkit-tap-highlight-color: transparent;
          }
       </style>
@@ -191,7 +193,8 @@
           //{ quote: '영웅은 있지 않고 실패에서 실패로 건너가는 것이 중요이다.', author: '윈스턴 처칠' },
           //{ quote: '나는 내가 더 노력할수록 운이 더 좋아지는걸 끔 발견한다.', author: '토마스 제퍼슨' },
           //{ quote: '비밀는 여전 우리가 무엇을 하기보단 얼마나 열다.', author: '마하트마 간디' },
-          { quote: '미래를 예측하는 최선의 방법은 미래를 창조하는 것이다.', author: '알람 케네이' }
+          //{ quote: '미래를 예측하는 최선의 방법은 미래를 창조하는 것이다.', author: '알람 케네이' },
+           {quote: '희망은 잠들지 않는 꿈이다.', author: '김소월'}
           //{ quote: '가운데 갈고 모든 것을 잃어버다.', author: '백지의 물결빛' },
           //{ quote: '해야할 일을 끝까지 하라, 결심한 일은 반드시 실행하라.', author: '백지의 물결빛' }
          ];
@@ -217,9 +220,8 @@
            const randomSong = getRandomElement(songs);
            const songWidget = document.createElement('div');
            songWidget.className = 'widget-box song-widget';
-           songWidget.innerHTML = `<img src="${randomSong.cover}" class="album-cover">
-                                   <div><strong>${randomSong.title}</strong><br>${randomSong.artist}</div>
-                                   <div class="play-pause-button" style="background-image: url('images/play.png');"></div>`;
+           songWidget.innerHTML = `<div class="play-pause-button" style="background-image: url('images/play.png');"></div><div><strong>${randomSong.title}</strong><br>${randomSong.artist}</div>
+           <img src="${randomSong.cover}" class="album-cover">`;
          
            const audio = new Audio(randomSong.mp3);
            const playPauseButton = songWidget.querySelector('.play-pause-button');
