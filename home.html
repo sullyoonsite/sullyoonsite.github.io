@@ -129,6 +129,8 @@
          display: flex;
          align-items: center;
          font-size: 18px;
+         height: auto;
+         transition: height 0.5s ease;
          }
          .album-cover {
          position: absolute;
@@ -153,19 +155,21 @@
          .weather-icon {
          width: 50px;
          height: 50px;
-         margin-right: 15px;
+         margin-right: 25px;
          margin-top: 5px;
          margin-bottom: 5px;
          }
          .quote-icon {
-         width: 60px;
-         height: 60px;
-         margin-right: 15px;
+         width: 55px;
+         height: 55px;
+         margin-top: 2.5px;
+         margin-bottom: 2.5px;
+         margin-right: 20px;
          }
          .play-pause-button {
          width: 40px;
          height: 40px;
-         margin-right: 15px;
+         margin-right: 40px;
          margin-top: 10px;
          margin-bottom: 10px;
          background-size: cover;
@@ -225,8 +229,9 @@
            const randomSong = getRandomElement(songs);
            const songWidget = document.createElement('div');
            songWidget.className = 'widget-box song-widget';
-           songWidget.innerHTML = `<div class="play-pause-button" style="background-image: url('images/play.png');"></div><div><strong>${randomSong.title}</strong><br>${randomSong.artist}</div>
-           <img src="${randomSong.cover}" class="album-cover">`;
+           songWidget.style.backgroundImage = `url('${randomSong.cover}')`;
+           songWidget.style.backgroundSize = 'cover';
+           songWidget.innerHTML = `<div class="play-pause-button" style="background-image: url('images/play.png');"></div><div class="song-details"><strong>${randomSong.title}</strong><br>${randomSong.artist}</div>`;
          
            const audio = new Audio(randomSong.mp3);
            const playPauseButton = songWidget.querySelector('.play-pause-button');
