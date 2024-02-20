@@ -135,6 +135,10 @@
             color: black;
             position: relative;
             padding-top: 20px;
+            overflow: hidden;
+            aspect-ratio: auto;
+        }
+        .song-widget.expanded {
             aspect-ratio: 1/1;
         }
          .album-cover {
@@ -245,9 +249,11 @@
                if (audio.paused) {
                    audio.play();
                    this.style.backgroundImage = "url('images/pause.png')";
+                   songWidget.classList.add('expanded');
                } else {
                    audio.pause();
                    this.style.backgroundImage = "url('images/play.png')";
+                   songWidget.classList.remove('expanded');
                }
            });
 
@@ -274,8 +280,8 @@
              weatherWidget.innerHTML = '<p>Weather data not available</p>';
            }
 
+          songWidget.classList.add('expanded')
           const widgets = document.getElementById('widgets');
-
           widgets.appendChild(dateWidget);
           widgets.appendChild(weatherWidget);
           widgets.appendChild(quoteWidget);
@@ -314,6 +320,8 @@
                  this.classList.add('header-pressed');
                  setTimeout(() => {
                      this.classList.remove('header-pressed');
+                     const songWidget = document.querySelector('.song-widget');
+                     songWidget.classList.remove('expanded')
                  }, 200);
              });
 
@@ -374,7 +382,7 @@
                    }, 200);
                }
            }
-          
+
                function displayPhotos(index = 0) {
                    if (index >= photos.length) return;
 
