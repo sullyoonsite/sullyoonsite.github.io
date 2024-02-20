@@ -125,12 +125,17 @@
          font-weight: bold;
          margin-right: 20px;
          }
-         .song-widget {
-         display: flex;
-         align-items: center;
-         font-size: 20px;
-         color: black;
-         }
+        .song-widget {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: flex-start;
+            font-size: 20px;
+            color: black;
+            position: relative;
+            padding-top: 20px;
+            aspect-ratio: 1/1;
+        }
          .album-cover {
          position: absolute;
          top: 50%;
@@ -168,8 +173,8 @@
          .play-pause-button {
          width: 40px;
          height: 40px;
-         margin-right: 38px;
-         margin-top: 10px;
+         margin-right: 36px;
+         margin-top: 3px;
          margin-bottom: 10px;
          margin-left: 5px;
          background-size: cover;
@@ -368,7 +373,7 @@
                    }, 200);
                }
            }
-
+          
                function displayPhotos(index = 0) {
                    if (index >= photos.length) return;
 
