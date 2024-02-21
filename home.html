@@ -307,6 +307,10 @@
                 });
                 widgets.style.maxHeight = '0';
             }
+            setTimeout(()=> {
+            const songWidget = document.querySelector('.song-widget');
+            songWidget.classList.toggle('expanded')
+              }, 300);
          }
 
          document.addEventListener('DOMContentLoaded', function() {
@@ -320,8 +324,6 @@
                  this.classList.add('header-pressed');
                  setTimeout(() => {
                      this.classList.remove('header-pressed');
-                     const songWidget = document.querySelector('.song-widget');
-                     songWidget.classList.toggle('expanded')
                  }, 200);
              });
 
